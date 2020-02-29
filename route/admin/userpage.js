@@ -1,10 +1,10 @@
+const {User}=require('../../model/user')
 module.exports=async (req,res)=>{
-    // console.log(req.session.username)
-    // const user=await User.findOne({_id:req.session.userId})
-    // console.log(user.username)
+    const user=await User.find({})
+    // res.send(user)
     res.render('admin/user'
-    // ,{
-    //     msg:user.username
-    // }
+    ,{
+        user:user
+    }
     )
 }
