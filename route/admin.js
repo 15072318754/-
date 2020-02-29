@@ -13,4 +13,6 @@ admin.get('/user-edit',require('./admin/user-edit'))
 // 新增用户功能
 admin.post('/user-edit',require('./admin/user-edit-fn'))
 admin.post('/user-modify',require('./admin/user-modify'))
+// 删除功能
+admin.get('/delete',require('./admin/delete'))
 module.exports=admin
