@@ -38,7 +38,12 @@ app.use('/admin',require('./middle/logingrua'))
 // 为路由匹配路径
 app.use('/home', home)// 如果你输入的是/home,就去找home模块
 app.use('/admin', admin)
-
+// 错误处理优化
+app.use((err,req,res,next)=>{
+    // 将对象转成字符串
+    const result=JSON.parse(err)
+    res.redirect(`${result.path}?message=${result.message}`)
+})
 app.listen(80, () => {
     console.log('http://localhost')
 })

@@ -1,19 +1,16 @@
-const Joi=require('joi')
-const {User}=require('../../model/user')
+
+const {User,validate}=require('../../model/user')
 const bcryptjs = require('bcryptjs')
-module.exports=async (req,res)=>{
-    const schema={
-        username: Joi.string().min(2).max(20).required().error(new Error('用户名格式不符合规则')),
-        email: Joi.string().email().required().error(new Error('邮箱格式不符合规则')),
-        password: Joi.string().regex(/^[a-zA-Z0-9]{3,15}$/).required().error(new Error('密码格式不符合规则')),
-        role: Joi.string().valid('admin','normal').required().error(new Error('状态格式不符合规则')),
-        state:Joi.number().valid(0,1).required().error(new Error('操作格式不符合规则'))
-    }
+module.exports=async (req,res,next)=>{
+   
     // 对请求的参数的格式进行验证
     try{
-        await  Joi.validate(req.body,schema)
+        await validate(req.body)
     }catch(er){
-        return res.redirect(`/admin/user-edit?message=${er.message}`)
+        // return res.redirect(`/admin/user-edit?message=${er.message}`)
+        // 错误处理优化
+        // 将字符串转对象形式
+        return next(JSON.stringify({path:'/admin/user-edit',message:er.message}))
     }
     // 验证邮箱是否被注册过
     let user=await User.findOne({email: req.body.email})
@@ -21,7 +18,10 @@ module.exports=async (req,res)=>{
     // res.send(user)如果查询数据库中没有返回的是为 空
     // 如果有就让他重定项
     if(user){
-        return res.redirect(`/admin/user-edit?message=邮箱地址被占用`)
+        
+        // return res.redirect(`/admin/user-edit?message=邮箱地址被占用`)
+        // 错误处理优化
+        return next(JSON.stringify({path:'/admin/user-edit',message:'邮箱地址被占用'}))
     }
     // res.send(user)
     // 如果没有，将用户密码进行加密

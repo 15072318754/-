@@ -1,5 +1,6 @@
 const mongoose=require('mongoose')
 const bcryptjs = require('bcryptjs');
+const Joi=require('joi')
 const userSchema=new mongoose.Schema({
     username: {
         type: String,
@@ -47,5 +48,18 @@ async function createUser(){
         }).then((doc)=>console.log(doc,'创建用户成功'))
         .catch((err)=>console.log(err,'创建用户失败'))
 }
+
+// 验证用户信息
+const validate= (user)=>{
+    const schema={
+        username: Joi.string().min(2).max(20).required().error(new Error('用户名格式不符合规则')),
+        email: Joi.string().email().required().error(new Error('邮箱格式不符合规则')),
+        password: Joi.string().regex(/^[a-zA-Z0-9]{3,15}$/).required().error(new Error('密码格式不符合规则')),
+        role: Joi.string().valid('admin','normal').required().error(new Error('状态格式不符合规则')),
+        state:Joi.number().valid(0,1).required().error(new Error('操作格式不符合规则'))
+    }
+
+    return  Joi.validate(user,schema)
+}
 // createUser()
-module.exports={User}
+module.exports={User,validate}
