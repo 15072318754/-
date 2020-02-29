@@ -1,5 +1,7 @@
 const {User}=require('../../model/user')
 module.exports=async (req,res)=>{
+    // 在通过req.app.locals下添加的属性，在模板中是可以拿到的
+    req.app.locals.currentLink='user'
     // 获取地址栏请求的参数
     const {message,id}=req.query
     // 如果当前有id参数，那么是修改操作，否则是添加操作

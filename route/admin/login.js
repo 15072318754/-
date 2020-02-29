@@ -22,6 +22,7 @@ module.exports=async (req,res)=>{
             // req.session.username=user.username
             req.session.username=user.username
             // res.send('登录成功')
+            // 在locals下添加的属性，模板中是可以拿到的
             req.app.locals.userInfo=user
             // console.log(req.app.locals.userInfo)
             // console.log(req.session.userId)

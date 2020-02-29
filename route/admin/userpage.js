@@ -1,5 +1,7 @@
 const {User}=require('../../model/user')
 module.exports=async (req,res)=>{
+    // 在通过req.app.locals下添加的属性，在模板中是可以拿到的
+    req.app.locals.currentLink='user'
     // 接收客户端传递过来的当前页的参数
     // 如果用户没有传入页码，就默认让他显示第一页数据
     let page=req.query.page||1
