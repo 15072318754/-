@@ -21,5 +21,6 @@ admin.get('/delete',require('./admin/delete'))
 admin.get('/article',require('./admin/article'))
 // 文章编辑页面
 admin.get('/article-edit',require('./admin/article-edit'))
-
+// 添加文章功能
+admin.post('/article-add',require('./admin/article-add'))
 module.exports=admin

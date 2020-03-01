@@ -14,33 +14,33 @@
                 <h4>5b9a716cb2d2bf17706bcc0a</h4>
             </div>
             <!-- /分类标题 -->
-            <form class="form-container">
+            <form class="form-container" action="/admin/article-add" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label>标题</label>
-                    <input type="text" class="form-control" placeholder="请输入文章标题">
+                    <input type="text" class="form-control" placeholder="请输入文章标题" name="title" >
                 </div>
                 <div class="form-group">
                     <label>作者</label>
-                    <input type="text" class="form-control" readonly>
+                    <input type="text" class="form-control" readonly name="author" value="{{@userInfo._id}}">
                 </div>
                 <div class="form-group">
                     <label>发布时间</label>
-                    <input type="date" class="form-control">
+                    <input type="date" class="form-control" name="publishDate">
                 </div>
                 
                 <div class="form-group">
                    <label for="exampleInputFile">文章封面</label>
-                   <input type="file">
+                   <input type="file" name="cover" id="fileform">
                    <div class="thumbnail-waper">
-                       <img class="img-thumbnail" src="">
+                       <img class="img-thumbnail" src="" id="preview">
                    </div>
                 </div>
                 <div class="form-group">
                     <label>内容</label>
-                    <textarea class="form-control" id="editor"></textarea>
+                    <textarea class="form-control" id="editor" name="content"></textarea>
                 </div>
                 <div class="buttons">
-                    <input type="submit" class="btn btn-primary">
+                    <input type="submit" class="btn btn-primary" >
                 </div>
             </form>
             
@@ -66,5 +66,24 @@
 
         // 获取数据
         // const editorData = editor.getData();
+
+        // ---------------------实现图片预览
+        var fileform=document.querySelector('#fileform')
+        // 监听文件的变化
+        fileform.onchange=function(){
+            // 读取文件
+           // 1\新建读取对象
+           const Reader=new FileReader()
+            // 2读取文件
+            // 用户选择的文件列表this.files[0]中的第一个
+            Reader.readAsDataURL(this.files[0])
+            // 因为readAsDataURL是异步方法，所以需要监听事件，当文件读取完之后就，事件处理函数会被自动调用
+            Reader.onload=function(){
+                // 通过reader.result获取文件读取的结果
+                // console.log(Reader.result)
+                // 将文件读取的结果显示在页面中，就是放在图片的src属性上
+                preview.src=Reader.result
+            }
+        }
     </script>
 {{/block}}

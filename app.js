@@ -3,9 +3,13 @@ const app = express()
 require('./model/conn.js')
 // require('./model/user.js')
 const path = require('path')
-
 const bodyparse = require('body-parser')
 const session = require('express-session')
+const dateformat = require('dateformat')
+const template = require('art-template')
+
+// 向模板中导入变量 通过该变量对时间进行格式化
+template.defaults.imports.dateformat=dateformat
 // bcryptjs 是一个第三方密码加密库，是对原有 bcrypt 的优化，优点是不需要安装任何依赖
 // 中间件 处理post请求
 app.use(bodyparse.urlencoded({ extended: false }))
