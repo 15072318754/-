@@ -9,7 +9,7 @@ module.exports=async (req,res)=>{
     // 每一页显示的数据条数
     let pagesize=4
    // 总数据条数
-    let count=await User.countDocuments({})
+    let count=await User.countDocuments()
 
     // 总页数
     let total=Math.ceil(count/pagesize)

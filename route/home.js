@@ -1,6 +1,9 @@
 const express=require('express')
 const home=express.Router()
-home.get('/',(req,res)=>{
-    res.send('欢迎来到博客首页')
-})
+// 博客首页
+home.get('/',require('./home/index'))
+// 文章详情页
+home.get('/article',require('./home/article'))
+// 评论添加
+home.post('/comment',require('./home/comment'))
 module.exports=home

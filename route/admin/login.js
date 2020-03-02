@@ -21,13 +21,22 @@ module.exports=async (req,res)=>{
             // 将用户id存储到session
             // req.session.username=user.username
             req.session.username=user.username
+            req.session.role=user.role
+
             // res.send('登录成功')
             // 在locals下添加的属性，模板中是可以拿到的
             req.app.locals.userInfo=user
             // console.log(req.app.locals.userInfo)
             // console.log(req.session.userId)
-
-            res.redirect('/admin/user')
+            // 对用户角色进行判断
+            if(user.role=='admin'){
+                // 重定项到后台用户页面
+                res.redirect('/admin/user')
+            }else {
+                // 重定项到博客首页
+                res.redirect('/home/')
+            }
+            
         }else {
             res.status(400).render('admin/error',{msg: '密码或用户名错误'})
         }

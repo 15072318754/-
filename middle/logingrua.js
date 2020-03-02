@@ -12,6 +12,11 @@ const grua=(req,res,next)=>{
     if(req.url!='/login' && !req.session.username){
         res.redirect('/admin/login')
     }else {
+        // 如果是是从登录页面过来的，还要判断他是不是normal用户，如果是就跳转到博客页面
+        if(req.session.role=='normal'){
+                 // 重定项到博客首页
+            return  res.redirect('/home/')
+        }
         next()
     } 
 }

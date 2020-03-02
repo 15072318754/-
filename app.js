@@ -7,6 +7,9 @@ const bodyparse = require('body-parser')
 const session = require('express-session')
 const dateformat = require('dateformat')
 const template = require('art-template')
+const morgan = require('morgan')
+const config = require('config')
+
 
 // 向模板中导入变量 通过该变量对时间进行格式化
 template.defaults.imports.dateformat=dateformat
@@ -34,6 +37,15 @@ app.engine('art', require('express-art-template'))
 
 // 静态资源托管
 app.use(express.static(path.join(__dirname, 'public')))
+// config环境会判断当前的运行环境，然后去运行环境的json文件中获取配置信息
+console.log(config.get('title'))
+if(process.env.NODE_ENV=='development'){
+    app.use(morgan('dev'))
+    console.log('开发环境')
+}else {
+    console.log('生产环境')
+
+}
 // 引用路由模块
 const home = require('./route/home.js')
 const admin = require('./route/admin.js')
